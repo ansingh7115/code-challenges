@@ -1,5 +1,7 @@
 package com.intenthq.challenge
 
+import scala.annotation.tailrec
+
 object SNiceStrings {
 
 // From http://adventofcode.com/day/5
@@ -21,5 +23,34 @@ object SNiceStrings {
 //    dvszwmarrgswjxmb is naughty because it contains only one vowel.
 //    How many strings are nice?
 
-  def nice(xs: List[String]): Int = ???
+
+
+  def nice(xs: List[String]): Int = {
+    xs.count(str => containsThreeVowels(str) && containsDoubleLetter(str) && !containsBannedStrings(str))
+  }
+
+  def containsThreeVowels(str: String): Boolean = {
+    val vowels = List('a', 'e', 'i', 'o', 'u')
+    // prioritizing simplicity over efficiency - this solution counts all the vowels instead of returning
+    // when it encounters three. Could write a tail recursive solution instead.
+    str.count(vowels.contains) >= 3
+  }
+
+  def containsDoubleLetter(str: String): Boolean = {
+    val strLastIndex: Int = str.length - 1
+
+    @tailrec
+    def loop(index: Int): Boolean = {
+      if (strLastIndex == index) false
+      else if (str.charAt(index) == str.charAt(index + 1)) true
+      else loop(index + 1)
+    }
+    loop(0)
+  }
+
+  def containsBannedStrings(str: String): Boolean = {
+    val banned = List("ab", "cd", "pq", "xy")
+    banned.foldLeft(false)((a, b) => a || str.contains(b) )
+  }
+
 }

@@ -28,6 +28,16 @@ class SEnigmaSpec extends Specification {
     "(1,2,3,7,3,2,3,7,2,3,4,8,9,7,8) is '1N73N7 HQ'" in {
       deciphe(List(1,2,3,7,3,2,3,7,2,3,4,8,9,7,8)) must_== "1N73N7 HQ"
     }
+
+    val overlapMap = Map(25415 -> 'H', 225 -> 'I')
+    "(2,2,5,4,1,5) is 'I415'" in {
+      SEnigma.deciphe(overlapMap)(List(2,2,5,4,1,5)) must_== "I415"
+    }
+
+    val overlapMap2 = Map(25415 -> 'H', 4153 -> 'L')
+    "(2,5,4,1,5,3) is 'H'" in {
+      SEnigma.deciphe(overlapMap2)(List(2,5,4,1,5,3)) must_== "H3"
+    }
   }
   section("enigma")
   section("scala")

@@ -1,5 +1,9 @@
 package com.intenthq.challenge;
 
+import scala.annotation.tailrec
+import scala.collection.immutable.SortedMap
+
+
 object SEnigma {
 
   // We have a system to transfer information from one place to another. This system
@@ -22,6 +26,26 @@ object SEnigma {
   // Following the above rules, the message would be: “1N73N7 HQ”
   // Check the tests for some other (simpler) examples.
 
-  def deciphe(map: Map[Int, Char])(message: List[Int]): String = ???
+
+  def deciphe(map: Map[Int, Char])(message: List[Int]): String = {
+    val keys = map.keys.toSeq.sorted
+
+    @tailrec
+    def loop(messageIndex: Int, result: String): String = {
+      if (messageIndex < message.length)  {
+        val (mapped, len) = keys.foldLeft((message(messageIndex).toString, 1)) { (res, key) =>
+          val keyLength = key.toString.length
+          val messageSlice = message.slice(messageIndex, messageIndex + keyLength).mkString
+          if (key.toString == messageSlice)
+            (map(key).toString, keyLength)
+          else res
+        }
+        loop(messageIndex + len, result.concat(mapped))
+      }
+      else result
+    }
+
+    loop(0, "")
+  }
 
 }

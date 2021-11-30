@@ -22,6 +22,15 @@ class SNiceStringsSpec extends Specification {
     "dvszwmarrgswjxmb is naughty" in {
       SNiceStrings.nice(List("dvszwmarrgswjxmb")) must_== 0
     }
+    "' ' is naughty" in {
+      SNiceStrings.nice(List(" ")) must_== 0
+    }
+    "aaa is nice and jchzalrnumimnmhp is naughty" in {
+      SNiceStrings.nice(List("aaa", "jchzalrnumimnmhp")) must_== 1
+    }
+    "spqeggio and esaw are naughty" in {
+      SNiceStrings.nice(List("spqeggio", "esaw")) must_== 0
+    }
   }
   section("nice")
   section("scala")
